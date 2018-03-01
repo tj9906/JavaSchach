@@ -1,19 +1,18 @@
 package de.allianz.javapraxis.schach.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import de.allainz.javapraxis.schach.gui.GUI;
 import de.allianz.javapraxis.schach.STEHTSCHACH;
 import de.allianz.javapraxis.schach.Schach;
 import de.allianz.javapraxis.schach.Spieler;
@@ -21,6 +20,7 @@ import de.allianz.javapraxis.schach.exception.InvalideKoordinatenException;
 import de.allianz.javapraxis.schach.feld.koordinate.BordKoordinate;
 import de.allianz.javapraxis.schach.figur.FARBE;
 import de.allianz.javapraxis.schach.figur.Turm;
+import de.allianz.javapraxis.schach.gui.GUI;
 
 public class TestSchach {
 

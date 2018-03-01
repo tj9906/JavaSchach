@@ -1,4 +1,4 @@
-package de.allainz.javapraxis.schach.gui;
+package de.allianz.javapraxis.schach.gui;
 
 import java.io.IOException;
 

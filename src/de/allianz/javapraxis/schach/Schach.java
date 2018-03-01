@@ -6,14 +6,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.allainz.javapraxis.schach.gui.GUI;
 import de.allianz.javapraxis.schach.exception.InvalideKoordinatenException;
-import de.allianz.javapraxis.schach.feld.Bord;
 import de.allianz.javapraxis.schach.feld.koordinate.BordKoordinate;
-import de.allianz.javapraxis.schach.feld.koordinate.GehKoordinate;
 import de.allianz.javapraxis.schach.figur.Bauer;
 import de.allianz.javapraxis.schach.figur.FARBE;
 import de.allianz.javapraxis.schach.figur.Figur;
+import de.allianz.javapraxis.schach.gui.GUI;
 
 public class Schach {
 	public Spiel spiel = new Spiel();

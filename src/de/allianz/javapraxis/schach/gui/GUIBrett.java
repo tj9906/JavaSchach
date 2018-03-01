@@ -1,3 +1,4 @@
+package de.allianz.javapraxis.schach.gui;
 /*package de.allainz.javapraxis.schach.gui;
  
  * example snippet: Hello World
