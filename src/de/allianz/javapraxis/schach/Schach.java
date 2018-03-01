@@ -177,7 +177,6 @@ public class Schach {
 					}
 
 				}
-				// Loesche Falsches Schlage
 
 				// Loesche Null einträge
 				for (int i = mglZuege.size() - 1; i >= 0; i--) {
