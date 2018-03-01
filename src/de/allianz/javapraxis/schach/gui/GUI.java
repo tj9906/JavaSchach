@@ -57,6 +57,8 @@ public class GUI {
 	 */
 	public GUI() throws InvalideKoordinatenException, IOException {
 		schach = new Schach();
+		schach.spiel.setSpieler1(new Spieler(JOptionPane.showInputDialog(null, "Spieler 1 (Weiss)"), FARBE.WEISS));
+		schach.spiel.setSpieler2(new Spieler(JOptionPane.showInputDialog(null, "Spieler 2 (Schwarz)"), FARBE.SCHWARZ));
 	}
 
 	/**
@@ -70,7 +72,7 @@ public class GUI {
 		anzahlZuege = 0;
 		start = null;
 		ziel = null;
-		shell.setSize(SIZEFELDER * 10 + 300, SIZEFELDER * 11);
+		shell.setBounds(0, 0, SIZEFELDER * 10 + 300, SIZEFELDER * 11);
 		shell.setText("Schachspiel von Thomas <3");
 		Font fontBorder = new Font(display, "Courier New", 20, SWT.BOLD);
 
@@ -191,6 +193,7 @@ public class GUI {
 		konsole.setEditable(false);
 		konsole.getScrollbarsMode();
 		addText("Es spielt: " + player().toString());
+		shell.setMaximized(true);
 		shell.open();
 		draw();
 		// Bleibe offen
