@@ -20,6 +20,7 @@ import de.allianz.javapraxis.schach.Spieler;
 import de.allianz.javapraxis.schach.exception.InvalideKoordinatenException;
 import de.allianz.javapraxis.schach.feld.Bord;
 import de.allianz.javapraxis.schach.feld.koordinate.BordKoordinate;
+import de.allianz.javapraxis.schach.figur.FARBE;
 import de.allianz.javapraxis.schach.figur.Figur;
 
 public class GUI {
@@ -76,9 +77,9 @@ public class GUI {
 					@Override
 					public void mouseUp(org.eclipse.swt.events.MouseEvent e) {
 						// TODO Auto-generated method stub
-						// System.out.println("Maus Up");
-
-						// System.out.println("Feld besetzt");
+						if(anzahlZuege > 100){
+							JOptionPane.showConfirmDialog(null, "Unentschieden! Zu viele Züge!!");
+						}
 						Canvas hier = (Canvas) e.getSource();
 						for (int spalte = 0; spalte < array.length; spalte++) {
 							for (int zeile = 0; zeile < array.length; zeile++) {
@@ -295,10 +296,10 @@ public class GUI {
 		konsole.setText("\n" + neu + konsole.getText());
 	}
 
-	public void gewinnerFenster() throws InvalideKoordinatenException {
+	public void gewinnerFenster(FARBE farbe) throws InvalideKoordinatenException {
 		draw();
 		int ergebniss = JOptionPane.showOptionDialog(null,
-				"Gewinner ist: " + player().getFarbe().toString() + "\nNochmal?", "Gewinner",
+				"Gewinner ist: " + farbe.toString() + "\nNochmal?", "Gewinner",
 				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null,
 				new String[] { "Ja!", "Zeige Bild" }, "Ja!");
 		if (ergebniss == 0) {

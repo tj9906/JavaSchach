@@ -52,38 +52,6 @@ public class Schach {
 	}
 
 	/**
-	 * Start Alles
-	 * 
-	 * @param args
-	 */
-	/*
-	 * public static void main(String[] args) { // erstellt spieler in der
-	 * Konsole try { spiel.spieleSchach(); System.out.println("Spieler 1:");
-	 * String eingabe = new BufferedReader(new
-	 * InputStreamReader(System.in)).readLine(); spiel.setSpieler1(new
-	 * Spieler(eingabe, FARBE.WEISS)); System.out.println("Spieler 2:"); eingabe
-	 * = new BufferedReader(new InputStreamReader(System.in)).readLine();
-	 * spiel.setSpieler2(new Spieler(eingabe, FARBE.SCHWARZ));
-	 * System.out.println(spiel.getBord().print()); } catch (Exception e) {
-	 * e.printStackTrace(); }
-	 * 
-	 * Spieler[] spielerfeld = new Spieler[2]; spielerfeld[0] =
-	 * spiel.getSpieler1(); spielerfeld[1] = spiel.getSpieler2();
-	 * 
-	 * int i = 0; do { // Muss immer Laufen für die Eingabe try { while (i <
-	 * spielerfeld.length) { System.out.println(spielerfeld[i] +
-	 * ": Du bist an der Reihe!"); eingabeZug(spielerfeld[i].getFarbe(),
-	 * spielerfeld[i].isStehtSchach()); i++; } i = 0; } catch
-	 * (InvalideKoordinatenException e) { // TODO: handle exception
-	 * System.out.println(e.getMessage()); } catch (Exception e) { // TODO:
-	 * handle exception e.printStackTrace(); }
-	 * 
-	 * } while (true);
-	 * 
-	 * }
-	 */
-
-	/**
 	 * erstellt die Eingabe und Wiederholt im Fehler Fall Erstellt die
 	 * Koordinaten Fängt ab, ob es eine eigene Figur ist, und ob der Move
 	 * möglich ist
@@ -96,77 +64,28 @@ public class Schach {
 	 */
 	public boolean eingabeZug(FARBE farbe, BordKoordinate von, BordKoordinate nach, GUI gui)
 			throws InvalideKoordinatenException, IOException, NullPointerException, CloneNotSupportedException {
-		// zug = getEingabe();
-		// String Validierung für Längere Eingaben
-		// String pruefe = "[A-H]{1}[1-8]{1} [A-H]{1}[1-8]{1}";
-		/*
-		 * if (zug.matches(pruefe)) { String koor1 = zug.substring(0, 2); String
-		 * koor2 = zug.substring(3, 5);
-		 */
-		// Schach schach2 = (Schach) clone();
-		// Schach schach2 = (Schach) this.clone();
-		// ----------------------------------------------------------------------
+		
+		if (macheZug(von.toString(), nach.toString(), gui)) {
+			gui.addText("----Zug valide!----");
 
-		/*
-		 * if (schach2.macheZug(von.toString(), nach.toString(), gui)) {
-		 * BordKoordinate koorKoenig = spiel.getBord().getKoorKoenig(farbe); if
-		 * (schach2.stehtSchach(farbe, koorKoenig) == STEHTSCHACH.JA) { if
-		 * (schach2.stehtMatt(farbe, koorKoenig) == STEHTSCHACH.SCHACHMATT) {
-		 * gui.addText("----Schach Matt!----\n----Das Spiel ist aus!----\n****"
-		 * + farbe + " gewinnt!!****"); return false; } } }
-		 */
-		// ---------------------------------------------------------------------
-		/*
-		 * BordKoordinate koorKoenig = spiel.getBord().getKoorKoenig(farbe); if
-		 * (stehtSchach(farbe, koorKoenig) == STEHTSCHACH.JA) { if
-		 * (stehtMatt(farbe, koorKoenig) == STEHTSCHACH.SCHACHMATT) {
-		 * gui.addText("----Schach Matt!----\n----Das Spiel ist aus!----\n****"
-		 * + farbe + " gewinnt!!****"); return false; }
-		 */
-
-		/*
-		 * 
-		 * Schach schach2 = (Schach) this.clone();
-		 * schach2.macheZug(von.toString(), nach.toString(), gui);
-		 * 
-		 * if(schach2.stehtMatt(farbe, koorKoenig) == STEHTSCHACH.NEIN){
-		 * gui.addText("----Schach!----"); if (farbe ==
-		 * spiel.getBord().getFigurAuf(new
-		 * BordKoordinate(von.toString())).getFarbe()) { if
-		 * (macheZug(von.toString(), nach.toString(), gui)) { gui.addText(
-		 * "----Zug valide!----"); return true; } } return false; }else{
-		 * gui.addText("----Schach!----\n----Das geht so nicht----"); return
-		 * false; }
-		 */
-
-		if (farbe == spiel.getBord().getFigurAuf(new BordKoordinate(von.toString())).getFarbe()) {
-
-			if (macheZug(von.toString(), nach.toString(), gui)) {
-				gui.addText("----Zug valide!----");
-
-				FARBE farbeGeg;
-				if (farbe == FARBE.WEISS) {
-					farbeGeg = FARBE.SCHWARZ;
-				} else {
-					farbeGeg = FARBE.WEISS;
-				}
-				if (spiel.getBord().getKoorKoenig(farbeGeg) == null || gameOver(farbeGeg, gui)) {
-					System.out.println(spiel.getBord().print());
-					// gui.draw();
-					// gui.addText("****Der König ist Tot!****\n****Es lebe der
-					// König!!****");
-					gui.gewinnerFenster();
-					return false;
-				}
-				return true;
+			FARBE farbeGeg;
+			if (farbe == FARBE.WEISS) {
+				farbeGeg = FARBE.SCHWARZ;
+			} else {
+				farbeGeg = FARBE.WEISS;
 			}
+			if(stehtSchach(farbeGeg, spiel.getBord().getKoorKoenig(farbeGeg)) == STEHTSCHACH.JA){
+				gui.addText("----SCHACH!!----");
+			}
+			if (spiel.getBord().getKoorKoenig(farbeGeg) == null || gameOver(farbeGeg, gui)) {
+				gui.gewinnerFenster(farbeGeg);
+				return false;
+			}
+			return true;
 		}
-		// gui.addText("----Ungültige Figurauswahl!!----");
-		// }
-		// System.out.println("----Ungültige Eingabe!!----");
 		return false;
-
 	}
+
 
 	/**
 	 * Liest die Eingabe
@@ -191,7 +110,9 @@ public class Schach {
 	 */
 	public boolean macheZug(String von, String nach, GUI gui) throws InvalideKoordinatenException {
 		if (spiel.getBord().getFigurAuf(new BordKoordinate(von)) != null) {
-			gui.addText(spiel.getBord().getFigurAuf(new BordKoordinate(von)) + " von: " + von + " nach: " + nach);
+			if (gui != null) {
+				gui.addText(spiel.getBord().getFigurAuf(new BordKoordinate(von)) + " von: " + von + " nach: " + nach);
+			}
 			return ziehe(mglZuege(new BordKoordinate(von)), new BordKoordinate(von), new BordKoordinate(nach), gui);
 		} else {
 			return false;
@@ -206,16 +127,17 @@ public class Schach {
 	 * @param zielKoor
 	 * @return istZugGemacht
 	 */
-	private boolean ziehe(List<BordKoordinate> mglZuege, BordKoordinate startKoor, BordKoordinate zielKoor, GUI gui) {
+	public boolean ziehe(List<BordKoordinate> mglZuege, BordKoordinate startKoor, BordKoordinate zielKoor, GUI gui) {
 		// TODO Auto-generated method stub
 		if (mglZuege.remove(zielKoor)) {
 			Figur fig = spiel.getBord().getFigurAuf(startKoor);
 			spiel.getBord().setFigurAuf(zielKoor, fig);
 			spiel.getBord().setFigurAuf(startKoor, null);
-			// System.out.println(spiel.getBord().print());
 			return true;
 		} else {
-			gui.addText("----Ziel Koordinate kann nicht erreicht werden!----");
+			if (gui != null) {
+				gui.addText("----Ziel Koordinate kann nicht erreicht werden!----");
+			}
 			return false;
 		}
 	}
@@ -249,7 +171,7 @@ public class Schach {
 			if (eigeneFigur instanceof Bauer) {
 
 				for (BordKoordinate curr : mglZuege) {
-					// System.out.println(curr);
+					
 					if (curr.getSpalte() - 1 == koor.getSpalte() || curr.getSpalte() + 1 == koor.getSpalte()) {
 						mglZuege.set(mglZuege.indexOf(curr), null);
 					}
@@ -319,6 +241,8 @@ public class Schach {
 		return STEHTSCHACH.NEIN;
 	}
 
+	
+
 	public boolean gameOver(FARBE farbe, GUI gui) throws InvalideKoordinatenException, CloneNotSupportedException {
 		List<BordKoordinate> posEig = spiel.getBord().getKoorVonFarbe(farbe);
 
@@ -334,17 +258,18 @@ public class Schach {
 					// TODO: handle exception
 					klon2.macheZug(curr.toString(), aktZ.toString(), null);
 				} finally {
-					System.out.println(klon2.spiel.getBord().print());
-					if (klon2.stehtMatt(farbe, klon2.spiel.getBord().getKoorKoenig(farbe)) != STEHTSCHACH.SCHACHMATT) {
-						return false;
+					
+					if (klon2.stehtSchach(farbe, klon2.spiel.getBord().getKoorKoenig(farbe)) != STEHTSCHACH.JA) {
+						
+						if(klon2.stehtMatt(farbe, klon2.spiel.getBord().getKoorKoenig(farbe)) != STEHTSCHACH.SCHACHMATT){
+							return false;
+						}
 					}
-
 				}
 
 			}
 		}
 		return true;
-		// return false;
 	}
 
 	public STEHTSCHACH stehtMatt(FARBE farbe, BordKoordinate koorKoenig) throws InvalideKoordinatenException {
