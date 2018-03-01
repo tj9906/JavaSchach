@@ -1,4 +1,4 @@
-package de.allainz.javapraxis.schach.willkommen;
+package de.allianz.javapraxis.schach.willkommen;
 
 public class Willkommen {
 
