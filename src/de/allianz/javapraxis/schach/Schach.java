@@ -142,10 +142,10 @@ public class Schach {
 		 */
 
 		if (farbe == spiel.getBord().getFigurAuf(new BordKoordinate(von.toString())).getFarbe()) {
-			
+
 			if (macheZug(von.toString(), nach.toString(), gui)) {
 				gui.addText("----Zug valide!----");
-				
+
 				FARBE farbeGeg;
 				if (farbe == FARBE.WEISS) {
 					farbeGeg = FARBE.SCHWARZ;
@@ -154,8 +154,9 @@ public class Schach {
 				}
 				if (spiel.getBord().getKoorKoenig(farbeGeg) == null || gameOver(farbeGeg, gui)) {
 					System.out.println(spiel.getBord().print());
-					//gui.draw();
-					//gui.addText("****Der König ist Tot!****\n****Es lebe der König!!****");
+					// gui.draw();
+					// gui.addText("****Der König ist Tot!****\n****Es lebe der
+					// König!!****");
 					gui.gewinnerFenster();
 					return false;
 				}
@@ -306,6 +307,7 @@ public class Schach {
 			figGegner = spiel.getBord().getKoorVonFarbe(FARBE.WEISS);
 		}
 		List<BordKoordinate> mglZiele = new ArrayList<>();
+
 		for (BordKoordinate koor : figGegner) {
 			List<BordKoordinate> mglZieleProFig = spiel.getBord().getFigurAuf(koor).bewegungsregeln(koor,
 					spiel.getBord());
@@ -327,12 +329,15 @@ public class Schach {
 			List<BordKoordinate> zieleEig = klon.spiel.getBord().getFigurAuf(curr).bewegungsregeln(curr,
 					klon.spiel.getBord());
 			for (BordKoordinate aktZ : zieleEig) {
+				Schach klon2 = clone();
 				try {
-					klon.macheZug(curr.toString(), aktZ.toString(), null);
+					klon2.macheZug(curr.toString(), aktZ.toString(), null);
 				} catch (Exception e) {
 					// TODO: handle exception
+					klon2.macheZug(curr.toString(), aktZ.toString(), null);
 				} finally {
-					if (klon.stehtSchach(farbe, klon.spiel.getBord().getKoorKoenig(farbe)) != STEHTSCHACH.JA) {
+					System.out.println(klon2.spiel.getBord().print());
+					if (klon2.stehtMatt(farbe, klon2.spiel.getBord().getKoorKoenig(farbe)) != STEHTSCHACH.SCHACHMATT) {
 						return false;
 					}
 
@@ -347,7 +352,9 @@ public class Schach {
 	public STEHTSCHACH stehtMatt(FARBE farbe, BordKoordinate koorKoenig) throws InvalideKoordinatenException {
 		List<STEHTSCHACH> auswahl = new ArrayList<>();
 		List<BordKoordinate> mglKoenig = new ArrayList<>();
+
 		mglKoenig = spiel.getBord().getFigurAuf(koorKoenig).bewegungsregeln(koorKoenig, spiel.getBord());
+
 		for (BordKoordinate aktKoor : mglKoenig) {
 			auswahl.add(stehtSchach(farbe, aktKoor));
 		}
