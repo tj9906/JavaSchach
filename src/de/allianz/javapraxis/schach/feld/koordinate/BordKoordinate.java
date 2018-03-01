@@ -137,6 +137,7 @@ public class BordKoordinate extends Koordinate {
 		return help + (zeile + 1);
 	}
 	
+	@SuppressWarnings("finally")
 	@Override
 	public BordKoordinate clone() throws CloneNotSupportedException {
 		BordKoordinate koor = null;

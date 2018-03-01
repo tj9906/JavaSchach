@@ -1,6 +1,5 @@
 package de.allianz.javapraxis.schach.feld;
 
-import de.allianz.javapraxis.schach.feld.koordinate.Koordinate;
 import de.allianz.javapraxis.schach.figur.Figur;
 
 public class Feld {

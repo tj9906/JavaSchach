@@ -1,6 +1,5 @@
 package de.allianz.javapraxis.schach.figur;
 
-import de.allianz.javapraxis.schach.feld.Feld;
 import de.allianz.javapraxis.schach.feld.koordinate.GehKoordinate;
 
 public class Turm extends Figur {

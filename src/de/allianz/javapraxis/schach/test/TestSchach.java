@@ -18,6 +18,8 @@ import de.allianz.javapraxis.schach.Schach;
 import de.allianz.javapraxis.schach.Spieler;
 import de.allianz.javapraxis.schach.exception.InvalideKoordinatenException;
 import de.allianz.javapraxis.schach.feld.koordinate.BordKoordinate;
+import de.allianz.javapraxis.schach.figur.Bauer;
+import de.allianz.javapraxis.schach.figur.Dame;
 import de.allianz.javapraxis.schach.figur.FARBE;
 import de.allianz.javapraxis.schach.figur.Turm;
 import de.allianz.javapraxis.schach.gui.GUI;
@@ -28,9 +30,6 @@ public class TestSchach {
 	public static GUI gui;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		gui = new GUI();
-		gui.init();
-		gui.draw();
 	}
 
 	@AfterClass
@@ -51,24 +50,24 @@ public class TestSchach {
 	@Test
 	public void testeMoeglichkeit() throws InvalideKoordinatenException, IOException, NullPointerException {
 		// TODO Auto-generated method stub
-		assertTrue(schach.macheZug("D2", "D4", gui));
+		assertTrue(schach.macheZug("D2", "D4", null));
 	}
 	
-	@Test
+	@Test 
 	public void testeMoeglichkeit2() throws InvalideKoordinatenException, IOException {
 		// TODO Auto-generated method stub
-		assertFalse(schach.macheZug("D3", "D4", gui));
+		assertFalse(schach.macheZug("D3", "D4", null));
 	}
 	@Test
 	public void testeMoeglichkeit3() throws InvalideKoordinatenException, IOException {
 		// TODO Auto-generated method stub
-		assertTrue(schach.macheZug("B1", "C3", gui));
+		assertTrue(schach.macheZug("B1", "C3", null));
 	}
 	
 	@Test
 	public void testeMoeglichkeit4() throws InvalideKoordinatenException, IOException {
 		// TODO Auto-generated method stub
-		assertFalse(schach.macheZug("B1", "D2", new GUI()));
+		assertFalse(schach.macheZug("B1", "D2", null));
 	}
 	
 	@Test
@@ -104,6 +103,34 @@ public class TestSchach {
 		schach.spiel.getBord().setFigurAuf(new BordKoordinate("E6"), new Turm(FARBE.SCHWARZ));
 		System.out.println(schach.spiel.getBord().print());
 		assertEquals(STEHTSCHACH.SCHACHMATT, schach.stehtMatt(FARBE.WEISS, new BordKoordinate("E1")));
+	}
+	
+	@Test
+	public void testeGameOver() throws InvalideKoordinatenException, CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		schach.spiel.getBord().setFigurAuf(new BordKoordinate("D1"), null);
+		schach.spiel.getBord().setFigurAuf(new BordKoordinate("E2"), null);
+		schach.spiel.getBord().setFigurAuf(new BordKoordinate("F7"), null);
+		schach.spiel.getBord().setFigurAuf(new BordKoordinate("G7"), null);
+		schach.spiel.getBord().setFigurAuf(new BordKoordinate("E4"), new Bauer(FARBE.WEISS));
+		schach.spiel.getBord().setFigurAuf(new BordKoordinate("F5"), new Bauer(FARBE.SCHWARZ));
+		schach.spiel.getBord().setFigurAuf(new BordKoordinate("G5"), new Bauer(FARBE.SCHWARZ));
+		schach.spiel.getBord().setFigurAuf(new BordKoordinate("H5"), new Dame(FARBE.WEISS));
+		System.out.println(schach.spiel.getBord().print());
+		assertTrue(schach.gameOver(FARBE.SCHWARZ, null));
+	}
+	
+	@Test
+	public void testeGameOver2() throws InvalideKoordinatenException, CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		schach.spiel.getBord().setFigurAuf(new BordKoordinate("D1"), null);
+		schach.spiel.getBord().setFigurAuf(new BordKoordinate("E2"), null);
+		schach.spiel.getBord().setFigurAuf(new BordKoordinate("F7"), null);
+		schach.spiel.getBord().setFigurAuf(new BordKoordinate("E4"), new Bauer(FARBE.WEISS));
+		schach.spiel.getBord().setFigurAuf(new BordKoordinate("F5"), new Bauer(FARBE.SCHWARZ));
+		schach.spiel.getBord().setFigurAuf(new BordKoordinate("H5"), new Dame(FARBE.WEISS));
+		System.out.println(schach.spiel.getBord().print());
+		assertFalse(schach.gameOver(FARBE.SCHWARZ, null));
 	}
 
 }

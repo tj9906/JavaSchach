@@ -1,10 +1,13 @@
 package de.allianz.javapraxis.schach.figur;
 
-import de.allianz.javapraxis.schach.feld.Feld;
 import de.allianz.javapraxis.schach.feld.koordinate.GehKoordinate;
 
 public class Bauer extends Figur {
 
+	/**
+	 * Unterscheidung in Bewegungen nach Farbe
+	 * @param farbe
+	 */
 	public Bauer(FARBE farbe) {
 		super(farbe);
 		// TODO Auto-generated constructor stub
@@ -30,6 +33,9 @@ public class Bauer extends Figur {
 			return "b";
 	}
 
+	/**
+	 * Soll die zewi mal vor löschen
+	 */
 	@Override
 	public void loescheErsterMove() {
 		// TODO Auto-generated method stub

@@ -37,16 +37,34 @@ public class GUI {
 	private static BordKoordinate ziel;
 	private static int anzahlZuege;
 
+	/**
+	 * Startet das Spiel, erzeugt die GUI
+	 * 
+	 * @param args
+	 * @throws InvalideKoordinatenException
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws InvalideKoordinatenException, IOException {
 		GUI view = new GUI();
 		view.init();
 	}
 
+	/**
+	 * Konstruktor Erzeugt das neue Schachspiel
+	 * 
+	 * @throws InvalideKoordinatenException
+	 * @throws IOException
+	 */
 	public GUI() throws InvalideKoordinatenException, IOException {
 		schach = new Schach();
-
 	}
 
+	/**
+	 * Initialisierung des Brettes, aller Start werte, und zeichnung
+	 * 
+	 * @throws InvalideKoordinatenException
+	 * @throws IOException
+	 */
 	public void init() throws InvalideKoordinatenException, IOException {
 		char buchstabe;
 		anzahlZuege = 0;
@@ -56,6 +74,7 @@ public class GUI {
 		shell.setText("Schachspiel von Thomas <3");
 		Font fontBorder = new Font(display, "Courier New", 20, SWT.BOLD);
 
+		// Vorbereiten der Canvas
 		for (int column = 0; column < SIZE; column++) {
 			for (int row = 0; row < SIZE; row++) {
 				array[column][row] = new Canvas(shell, SWT.BORDER);
@@ -74,29 +93,40 @@ public class GUI {
 
 					}
 
+					/**
+					 * Action Listener für Klick Steuert den Zug
+					 */
 					@Override
 					public void mouseUp(org.eclipse.swt.events.MouseEvent e) {
-						// TODO Auto-generated method stub
-						if(anzahlZuege > 100){
+						// Für unentschieden nach 100 Zügen
+						if (anzahlZuege > 100) {
 							JOptionPane.showConfirmDialog(null, "Unentschieden! Zu viele Züge!!");
+							for (int column = 0; column < SIZE; column++) {
+								for (int row = 0; row < SIZE; row++) {
+									array[column][row] = new Canvas(shell, SWT.BORDER);
+									array[column][row].setBounds(column * SIZEFELDER + SIZEFELDER,
+											(8 - row) * SIZEFELDER, SIZEFELDER, SIZEFELDER);
+									array[column][row].setEnabled(false);
+								}
+							}
 						}
 						Canvas hier = (Canvas) e.getSource();
+						// Finde das richtige Canvas
 						for (int spalte = 0; spalte < array.length; spalte++) {
 							for (int zeile = 0; zeile < array.length; zeile++) {
 								if (array[spalte][zeile] == hier) {
-									// System.out.println("Feld gefunden");
 									try {
-
 										if (start == null) {
+											// Für den ersten Klick
 											start = new BordKoordinate(spalte, zeile);
 											break;
 										} else {
+											// Für den zweiten Klick
 											ziel = new BordKoordinate(spalte, zeile);
-											@SuppressWarnings("static-access")
 											Figur fig1 = schach.spiel.getBord().getFigurAuf(start);
 											if (fig1 == null) {
 												throw new InvalideKoordinatenException(
-														"####Falsche Koordinate!####\n####Feld ist frei!####");
+														"Falsche Koordinate! Feld ist frei!");
 											}
 											if (ziehe(start, ziel)) {
 												fig1.loescheErsterMove();
@@ -105,42 +135,36 @@ public class GUI {
 											ziel = null;
 										}
 										draw();
+										// Im Fehlerfall einfach neu starten,
+										// kein erster Klick
 									} catch (InvalideKoordinatenException e1) {
-										// TODO Auto-generated catch
 										addText(e1.getMessage());
 										e1.printStackTrace();
 										start = null;
 										ziel = null;
 									} catch (IOException e1) {
-										// TODO Auto-generated catch block
 										e1.printStackTrace();
 										start = null;
 										ziel = null;
-										addText("####Ein Fehler ist aufgetreten!####\n----Bitte Wiederholen!----");
+										addText("----Bitte Wiederholen!----");
 									} catch (NullPointerException e1) {
 										e1.printStackTrace();
 										start = null;
 										ziel = null;
-										addText("####Ein Fehler ist aufgetreten!####\n----Bitte Wiederholen!----");
+										addText("----Bitte Wiederholen!----");
 									} catch (CloneNotSupportedException e1) {
-										// TODO Auto-generated catch block
 										e1.printStackTrace();
 										start = null;
 										ziel = null;
-										addText("####Ein Fehler ist aufgetreten!####\n----Bitte Wiederholen!----");
+										addText("----Bitte Wiederholen!----");
 									}
 								}
 							}
-							// addText(start.toString());
 						}
 					}
 
 				});
-
-				// ich lÃ¼be Dhomas
-				// !!â™¥MÄ±U UM5Mâ™£
-				// 5â™£Â§!â™¥
-
+				// Beschriftung der Felder
 				Label links = new Label(shell, SWT.NONE);
 				Label rechts = new Label(shell, SWT.NONE);
 				Label oben = new Label(shell, SWT.NONE);
@@ -161,15 +185,15 @@ public class GUI {
 			}
 		}
 
-		// SpÃ¤ter einfÃ¼gen
+		// Erstellen der Konsole
 		konsole = new Text(shell, SWT.MULTI | SWT.V_SCROLL);
 		konsole.setBounds(SIZEFELDER * 10, SIZEFELDER, 300, SIZEFELDER * 8);
 		konsole.setEditable(false);
 		konsole.getScrollbarsMode();
 		addText("Es spielt: " + player().toString());
-		draw();
 		shell.open();
 		draw();
+		// Bleibe offen
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
 				display.sleep();
@@ -177,8 +201,12 @@ public class GUI {
 		display.dispose();
 	}
 
+	/**
+	 * Zeichne die Figuren
+	 * 
+	 * @throws InvalideKoordinatenException
+	 */
 	public void drawPic() throws InvalideKoordinatenException {
-		@SuppressWarnings("static-access")
 		Bord brett = schach.spiel.getBord();
 		for (int spalte = 0; spalte < 8; spalte++) {
 			for (int zeile = 0; zeile < 8; zeile++) {
@@ -240,25 +268,39 @@ public class GUI {
 		}
 	}
 
+	/**
+	 * Starte einen Zug
+	 * 
+	 * @param start
+	 * @param ziel
+	 * @return
+	 * @throws InvalideKoordinatenException
+	 * @throws IOException
+	 * @throws NullPointerException
+	 * @throws CloneNotSupportedException
+	 */
 	private boolean ziehe(BordKoordinate start, BordKoordinate ziel)
 			throws InvalideKoordinatenException, IOException, NullPointerException, CloneNotSupportedException {
 		// TODO Auto-generated method stub
 		if (schach.eingabeZug(player().getFarbe(), start, ziel, this)) {
 			anzahlZuege++;
-			addText("Es spielt: " + player().toString());
+			addText("Es spielt: " + player().getName() + " " + player().toString().charAt(0));
 			return true;
 		} else {
-			addText("----Bitte wiederholen!----");
+			addText("----Bitte Wiederholen!----");
 			return false;
 		}
 	}
 
-	@SuppressWarnings("static-access")
+	/**
+	 * Stellt fest wer spielt
+	 * 
+	 * @return
+	 */
 	private Spieler player() {
 		Spieler[] spielerFeld = new Spieler[2];
 		spielerFeld[0] = schach.spiel.getSpieler1();
 		spielerFeld[1] = schach.spiel.getSpieler2();
-
 		if (anzahlZuege % 2 == 0) {
 			return spielerFeld[0];
 		} else {
@@ -266,22 +308,21 @@ public class GUI {
 		}
 	}
 
+	/**
+	 * Zeichnet die Felder Farbig und ruft dann drawPic() auf
+	 * 
+	 * @throws InvalideKoordinatenException
+	 */
 	public void draw() throws InvalideKoordinatenException {
 
 		for (int column = 0; column < SIZE; column++) {
-
 			for (int row = 0; row < SIZE; row++) {
-
 				Image imageOld = array[column][row].getBackgroundImage();
 				if (imageOld != null) {
 					imageOld.dispose();
 				}
 				array[column][row].setBackgroundImage(null);
-
-				if (column % 2 == row % 2) // modulo formel um jedes zweite Feld
-											// zu fÃ¤rben
-
-				{
+				if (column % 2 == row % 2) {
 					array[column][row].setBackground(COLOR_DARKBROWN);
 				} else {
 					array[column][row].setBackground(COLOR_LIGHTBROWN);
@@ -289,18 +330,25 @@ public class GUI {
 			}
 		}
 		drawPic();
-
 	}
 
+	/**
+	 * Kümmert sich um Konsole
+	 * @param neu
+	 */
 	public void addText(String neu) {
 		konsole.setText("\n" + neu + konsole.getText());
 	}
 
+	/**
+	 * Kümmert sich um das Ende des Spieles
+	 * @param farbe
+	 * @throws InvalideKoordinatenException
+	 */
 	public void gewinnerFenster(FARBE farbe) throws InvalideKoordinatenException {
 		draw();
-		int ergebniss = JOptionPane.showOptionDialog(null,
-				"Gewinner ist: " + farbe.toString() + "\nNochmal?", "Gewinner",
-				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null,
+		int ergebniss = JOptionPane.showOptionDialog(null, "Gewinner ist: " + farbe.toString() + "\nNochmal?",
+				"Gewinner", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null,
 				new String[] { "Ja!", "Zeige Bild" }, "Ja!");
 		if (ergebniss == 0) {
 			this.display.dispose();
@@ -320,7 +368,7 @@ public class GUI {
 					array[column][row].setBounds(column * SIZEFELDER + SIZEFELDER, (8 - row) * SIZEFELDER, SIZEFELDER,
 							SIZEFELDER);
 					array[column][row].setEnabled(false);
-					
+
 				}
 			}
 		}

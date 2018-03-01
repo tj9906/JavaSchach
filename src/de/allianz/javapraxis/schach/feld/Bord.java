@@ -6,19 +6,31 @@ import java.util.List;
 
 import de.allianz.javapraxis.schach.exception.InvalideKoordinatenException;
 import de.allianz.javapraxis.schach.feld.koordinate.BordKoordinate;
-import de.allianz.javapraxis.schach.figur.*;
+import de.allianz.javapraxis.schach.figur.Bauer;
+import de.allianz.javapraxis.schach.figur.Dame;
+import de.allianz.javapraxis.schach.figur.FARBE;
+import de.allianz.javapraxis.schach.figur.Figur;
+import de.allianz.javapraxis.schach.figur.Koenig;
+import de.allianz.javapraxis.schach.figur.Laeufer;
+import de.allianz.javapraxis.schach.figur.Springer;
+import de.allianz.javapraxis.schach.figur.Turm;
 
 public class Bord {
-	//-------------------
-	public Feld[][] brett;
-	//-------------------
+	//------------------------------------
+	private Feld[][] brett;
 	
+	//------------------------------------
 	public Bord() {
 		brett = new Feld[8][8];
 		feldErzeugen();
 		erzeugeStartaufstellung();
 	}
 
+	//----------------------------------
+	/**
+	 * Wandle das Feld in ein druckbaren String um
+	 * @return Feld als String
+	 */
 	public String print() {
 		String text = "   A    B    C    D    E    F    G    H  \n";
 		for (int zeile = brett.length - 1; zeile >= 0; zeile--) {
@@ -33,6 +45,9 @@ public class Bord {
 		return text;
 	}
 
+	/**
+	 * erzeuge die Start aufstellung, Weiss unten, schwarz oben
+	 */
 	private void erzeugeStartaufstellung() {
 		// Stelle Bauer auf
 		for (int spalte = 0; spalte < brett.length; spalte++) {
@@ -62,6 +77,9 @@ public class Bord {
 
 	}
 
+	/**
+	 * erzeugt das Feld, stellt sicher, und sorgt für die richtige Farbe der Felder
+	 */
 	private void feldErzeugen() {
 		for (int spalte = 0; spalte < brett.length; spalte++) {
 			for (int zeile = brett.length - 1; zeile >= 0; zeile--) {
@@ -76,14 +94,30 @@ public class Bord {
 
 	}
 
+	/**
+	 * 
+	 * @param koordinate
+	 * @return Figur auf der eingegeben Koordinate
+	 */
 	public Figur getFigurAuf(BordKoordinate koordinate) {
 		return brett[koordinate.getSpalte()][koordinate.getZeile()].getFigur();
 	}
 
+	/**
+	 * Setzt auf Koordinate die Figur xy
+	 * @param koordinate
+	 * @param figur
+	 */
 	public void setFigurAuf(BordKoordinate koordinate, Figur figur) {
 		brett[koordinate.getSpalte()][koordinate.getZeile()].setFigur(figur);
 	}
 
+	/**
+	 * Gibt alle Positionen zurück, die von farbe besetzt sind
+	 * @param farbe
+	 * @return List<BordKoordinate>
+	 * @throws InvalideKoordinatenException
+	 */
 	public List<BordKoordinate> getKoorVonFarbe(FARBE farbe) throws InvalideKoordinatenException {
 		List<BordKoordinate> gegner = new ArrayList<>();
 		
@@ -98,6 +132,12 @@ public class Bord {
 		return gegner;
 	}
 
+	/**
+	 * Gibt die Koordinate des Koenigs der farbe zurück
+	 * @param farbe
+	 * @return BordKoordinate
+	 * @throws InvalideKoordinatenException
+	 */
 	public BordKoordinate getKoorKoenig(FARBE farbe) throws InvalideKoordinatenException {
 		// TODO Auto-generated method stub
 		BordKoordinate koorKoenig = null;

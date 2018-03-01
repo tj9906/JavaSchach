@@ -2,7 +2,6 @@ package de.allianz.javapraxis.schach;
 
 import de.allianz.javapraxis.schach.feld.Bord;
 import de.allianz.javapraxis.schach.figur.FARBE;
-import de.allianz.javapraxis.schach.figur.Figur;
 
 public class Spiel {
 	private Spieler spieler1;

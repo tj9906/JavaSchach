@@ -64,28 +64,29 @@ public class Schach {
 	 */
 	public boolean eingabeZug(FARBE farbe, BordKoordinate von, BordKoordinate nach, GUI gui)
 			throws InvalideKoordinatenException, IOException, NullPointerException, CloneNotSupportedException {
-		
-		if (macheZug(von.toString(), nach.toString(), gui)) {
-			gui.addText("----Zug valide!----");
+		if (farbe == spiel.getBord().getFigurAuf(von).getFarbe()) {
+			if (macheZug(von.toString(), nach.toString(), gui)) {
+				gui.addText("----Zug valide!----");
 
-			FARBE farbeGeg;
-			if (farbe == FARBE.WEISS) {
-				farbeGeg = FARBE.SCHWARZ;
-			} else {
-				farbeGeg = FARBE.WEISS;
+				FARBE farbeGeg;
+				if (farbe == FARBE.WEISS) {
+					farbeGeg = FARBE.SCHWARZ;
+				} else {
+					farbeGeg = FARBE.WEISS;
+				}
+				if (stehtSchach(farbeGeg, spiel.getBord().getKoorKoenig(farbeGeg)) == STEHTSCHACH.JA) {
+					gui.addText("----SCHACH!!----");
+				}
+				if (spiel.getBord().getKoorKoenig(farbeGeg) == null || gameOver(farbeGeg, gui)) {
+					gui.gewinnerFenster(farbe);
+					return false;
+				}
+				return true;
 			}
-			if(stehtSchach(farbeGeg, spiel.getBord().getKoorKoenig(farbeGeg)) == STEHTSCHACH.JA){
-				gui.addText("----SCHACH!!----");
-			}
-			if (spiel.getBord().getKoorKoenig(farbeGeg) == null || gameOver(farbeGeg, gui)) {
-				gui.gewinnerFenster(farbeGeg);
-				return false;
-			}
-			return true;
 		}
+		gui.addText("----Spiele deine Eigenen Figuren!----");
 		return false;
 	}
-
 
 	/**
 	 * Liest die Eingabe
@@ -171,7 +172,7 @@ public class Schach {
 			if (eigeneFigur instanceof Bauer) {
 
 				for (BordKoordinate curr : mglZuege) {
-					
+
 					if (curr.getSpalte() - 1 == koor.getSpalte() || curr.getSpalte() + 1 == koor.getSpalte()) {
 						mglZuege.set(mglZuege.indexOf(curr), null);
 					}
@@ -240,8 +241,6 @@ public class Schach {
 		return STEHTSCHACH.NEIN;
 	}
 
-	
-
 	public boolean gameOver(FARBE farbe, GUI gui) throws InvalideKoordinatenException, CloneNotSupportedException {
 		List<BordKoordinate> posEig = spiel.getBord().getKoorVonFarbe(farbe);
 
@@ -257,10 +256,11 @@ public class Schach {
 					// TODO: handle exception
 					klon2.macheZug(curr.toString(), aktZ.toString(), null);
 				} finally {
-					
+
 					if (klon2.stehtSchach(farbe, klon2.spiel.getBord().getKoorKoenig(farbe)) != STEHTSCHACH.JA) {
-						
-						if(klon2.stehtMatt(farbe, klon2.spiel.getBord().getKoorKoenig(farbe)) != STEHTSCHACH.SCHACHMATT){
+
+						if (klon2.stehtMatt(farbe,
+								klon2.spiel.getBord().getKoorKoenig(farbe)) != STEHTSCHACH.SCHACHMATT) {
 							return false;
 						}
 					}

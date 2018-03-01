@@ -2,7 +2,8 @@ package de.allianz.javapraxis.schach;
 
 import de.allianz.javapraxis.schach.exception.InvalideParameterException;
 import de.allianz.javapraxis.schach.feld.koordinate.BordKoordinate;
-import de.allianz.javapraxis.schach.figur.*;
+import de.allianz.javapraxis.schach.figur.Bauer;
+import de.allianz.javapraxis.schach.figur.Figur;
 
 public class Zug {
 	private Class<? extends Figur> vonFigur;

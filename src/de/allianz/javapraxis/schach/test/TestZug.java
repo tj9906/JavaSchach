@@ -1,7 +1,5 @@
 package de.allianz.javapraxis.schach.test;
 
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -35,6 +33,7 @@ public class TestZug {
 
 	@Test(expected  = InvalideParameterException.class)
 	public void testValidiere() throws InvalideParameterException, InvalideKoordinatenException {
+		@SuppressWarnings("unused")
 		Zug a = new Zug(new Bauer (FARBE.SCHWARZ).getClass(), null, null, new BordKoordinate("A2"), new BordKoordinate("A3"));
 	}
 

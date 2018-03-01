@@ -1,6 +1,8 @@
 package de.allianz.javapraxis.schach.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -15,7 +17,13 @@ import de.allianz.javapraxis.schach.feld.Bord;
 import de.allianz.javapraxis.schach.feld.Feld;
 import de.allianz.javapraxis.schach.feld.koordinate.BordKoordinate;
 import de.allianz.javapraxis.schach.feld.koordinate.GehKoordinate;
-import de.allianz.javapraxis.schach.figur.*;
+import de.allianz.javapraxis.schach.figur.Bauer;
+import de.allianz.javapraxis.schach.figur.Dame;
+import de.allianz.javapraxis.schach.figur.FARBE;
+import de.allianz.javapraxis.schach.figur.Koenig;
+import de.allianz.javapraxis.schach.figur.Laeufer;
+import de.allianz.javapraxis.schach.figur.Springer;
+import de.allianz.javapraxis.schach.figur.Turm;
 
 public class TestClone {
 

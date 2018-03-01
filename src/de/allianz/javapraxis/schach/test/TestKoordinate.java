@@ -1,6 +1,8 @@
 package de.allianz.javapraxis.schach.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.AfterClass;

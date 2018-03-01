@@ -5,8 +5,8 @@ import java.util.List;
 
 import de.allianz.javapraxis.schach.exception.InvalideKoordinatenException;
 import de.allianz.javapraxis.schach.feld.Bord;
-import de.allianz.javapraxis.schach.feld.Feld;
-import de.allianz.javapraxis.schach.feld.koordinate.*;
+import de.allianz.javapraxis.schach.feld.koordinate.BordKoordinate;
+import de.allianz.javapraxis.schach.feld.koordinate.GehKoordinate;
 
 public abstract class Figur {
 	protected FARBE farbe;
@@ -27,70 +27,65 @@ public abstract class Figur {
 	/**
 	 * erstellt eine Liste mit den Möglichen Ziel Koordinaten der eigenen Figur
 	 * 
-	 * @param bkor
+	 * @param aktuelleKoor
 	 * @param board
 	 * @return List<BordKoordinate>
 	 * @throws InvalideKoordinatenException
 	 */
-	public List<BordKoordinate> bewegungsregeln(BordKoordinate bkor, Bord board) throws InvalideKoordinatenException {
-		// Liste zur Rückgabe
+	public List<BordKoordinate> bewegungsregeln(BordKoordinate aktuelleKoor, Bord board) throws InvalideKoordinatenException {
 		List<BordKoordinate> regeln = new ArrayList<>();
-		// bkor ist die aktuelle Koordinate
-		int spalte = bkor.getSpalte();
-		int zeile = bkor.getZeile();
-		// be ist meine neue Koordinate, die erreichbar ist
-		BordKoordinate be = null;
+		int spalte = aktuelleKoor.getSpalte();
+		int zeile = aktuelleKoor.getZeile();
+		
+		BordKoordinate neueKoorErreichbar = null;
+		
 		// Gehe durch die ArrayList um jedes bewegugsmuster abzugreifen
 		for (GehKoordinate akt : zuege) {
 			// Setzte meine Aktuellen werte
 			int aktOffset = akt.getOffset();
 			int aktSpalte = akt.getSpalte();
 			int aktZeile = akt.getZeile();
-			// Hier könnte er hin (Zielspalte oder Zielzeile)
+			
 			int zielSpalte = spalte;
 			int zielZeile = zeile;
+			
 			// Laufe den Offset ab, um alle Ziele zu erfahren
 			for (int i = 1; i <= aktOffset; i++) {
 				zielSpalte += aktSpalte;
 				zielZeile += aktZeile;
 				// Liegt das Ziel im Feld
 				if (zielSpalte < 8 && zielZeile < 8 && zielSpalte >= 0 && zielZeile >= 0) {
-					be = new BordKoordinate(zielSpalte, zielZeile);
+					neueKoorErreichbar = new BordKoordinate(zielSpalte, zielZeile);
+					
 					// Breche ab, wenn auf dem Ziel feld ein eigener steht
-					if (board.getFigurAuf(be) != null && board.getFigurAuf(be).getFarbe() == this.getFarbe()) {
+					if (board.getFigurAuf(neueKoorErreichbar) != null && board.getFigurAuf(neueKoorErreichbar).getFarbe() == this.getFarbe()) {
 						break;
 						// sonst füge hinzu und breche ab, wenn es ein Gegner
 						// ist, der Geschlagen werden kann
-					} else if (board.getFigurAuf(be) != null && this.getFarbe() != board.getFigurAuf(be).getFarbe()) {
-						// Änderung von bis
-						// ----------------------------------------------------
+					} else if (board.getFigurAuf(neueKoorErreichbar) != null && this.getFarbe() != board.getFigurAuf(neueKoorErreichbar).getFarbe()) {
+						// Behandlung des Schräg Schlagen Bauer
 						if (this instanceof Bauer) {
-							if (bkor.getSpalte() != zielSpalte) {
+							if (aktuelleKoor.getSpalte() != zielSpalte) {
 
-								regeln.add(be);
+								regeln.add(neueKoorErreichbar);
 								break;
 							}
 							break;
 						}
-						// Änderung von bis
-						// ----------------------------------------------------
-						regeln.add(be);
+						regeln.add(neueKoorErreichbar);
 						break;
 					}
-					regeln.add(be);
+					regeln.add(neueKoorErreichbar);
 				}
 			}
 		}
-		// Überprüfe ob es der erste Move war, um den Bauer einzuschränken
-		/*
-		 * if(this.ersterMove){ System.out.println("Das war der erste Streich!"
-		 * ); //this.loescheErsterMove(); this.ersterMove = false; }
-		 */
 		return regeln;
 	}
 
+	/**
+	 * Tut nur was beim Bauern
+	 */
 	public void loescheErsterMove() {
-		System.out.println("Lösche nicht Bauer");
 	}
 
 	@Override
