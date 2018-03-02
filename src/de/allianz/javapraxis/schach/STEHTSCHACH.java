@@ -1,5 +1,5 @@
 package de.allianz.javapraxis.schach;
 
 public enum STEHTSCHACH {
-NEIN, JA, SCHACHMATT, VLT
+NEIN, JA, SCHACHMATT
 }
