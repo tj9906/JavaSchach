@@ -102,8 +102,8 @@ public class GUI {
 					@Override
 					public void mouseUp(org.eclipse.swt.events.MouseEvent e) {
 						// Für unentschieden nach 100 Zügen
-						if (anzahlZuege > 100) {
-							JOptionPane.showConfirmDialog(null, "Unentschieden! Zu viele Züge!!");
+						if (anzahlZuege > 150) {
+							JOptionPane.showMessageDialog(null, "Unentschieden! Zu viele Züge!!");
 							for (int column = 0; column < SIZE; column++) {
 								for (int row = 0; row < SIZE; row++) {
 									array[column][row] = new Canvas(shell, SWT.BORDER);
@@ -196,7 +196,7 @@ public class GUI {
 		spielerAnzeige = new Text(shell, SWT.SINGLE);
 		spielerAnzeige.setBounds(SIZEFELDER * 10, SIZEFELDER * 1, 300, 25);
 		spielerAnzeige.setEditable(false);
-		spielerAnzeige.setText(player().getName());
+		spielerAnzeige.setText(player().getName() + "\tnoch " + (150-anzahlZuege) + " Züge!");
 		spielerAnzeige.setBackground(new Color(display, 194, 194, 194));
 		spielerAnzeige.setFont(fontBorder);
 		shell.setMaximized(true);
@@ -293,7 +293,7 @@ public class GUI {
 		// TODO Auto-generated method stub
 		if (schach.eingabeZug(player().getFarbe(), start, ziel, this)) {
 			anzahlZuege++;
-			spielerAnzeige.setText(player().getName());
+			spielerAnzeige.setText(player().getName() + "\tnoch " + (150-anzahlZuege) + " Züge!");
 			return true;
 		} else {
 			addText("----Bitte Wiederholen!----");
