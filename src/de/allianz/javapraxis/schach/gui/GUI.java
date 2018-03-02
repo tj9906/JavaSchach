@@ -30,9 +30,10 @@ public class GUI {
 	private Color COLOR_LIGHTBROWN = new Color(display, 255, 192, 100); // Farben
 	private Color COLOR_DARKBROWN = new Color(display, 153, 51, 0);
 	public static final int SIZE = 8; // Anzahl der Felder
-	public static final int SIZEFELDER = 80;
+	public static final int SIZEFELDER = 100;
 	public static Schach schach;
-	private static Text konsole;
+	private Text konsole;
+	private Text spielerAnzeige;
 	private static BordKoordinate start;
 	private static BordKoordinate ziel;
 	private static int anzahlZuege;
@@ -189,10 +190,15 @@ public class GUI {
 
 		// Erstellen der Konsole
 		konsole = new Text(shell, SWT.MULTI | SWT.V_SCROLL);
-		konsole.setBounds(SIZEFELDER * 10, SIZEFELDER, 300, SIZEFELDER * 8);
+		konsole.setBounds(SIZEFELDER * 10, SIZEFELDER * 2, 300, SIZEFELDER * 8);
 		konsole.setEditable(false);
 		konsole.getScrollbarsMode();
-		addText("Es spielt: " + player().toString());
+		spielerAnzeige = new Text(shell, SWT.SINGLE);
+		spielerAnzeige.setBounds(SIZEFELDER * 10, SIZEFELDER * 1, 300, 25);
+		spielerAnzeige.setEditable(false);
+		spielerAnzeige.setText(player().getName());
+		spielerAnzeige.setBackground(new Color(display, 194, 194, 194));
+		spielerAnzeige.setFont(fontBorder);
 		shell.setMaximized(true);
 		shell.open();
 		draw();
@@ -287,7 +293,7 @@ public class GUI {
 		// TODO Auto-generated method stub
 		if (schach.eingabeZug(player().getFarbe(), start, ziel, this)) {
 			anzahlZuege++;
-			addText("Es spielt: " + player().getName() + " " + player().toString().charAt(0));
+			spielerAnzeige.setText(player().getName());
 			return true;
 		} else {
 			addText("----Bitte Wiederholen!----");

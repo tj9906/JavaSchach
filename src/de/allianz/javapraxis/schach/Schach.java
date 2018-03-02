@@ -48,7 +48,7 @@ public class Schach {
 
 	public Schach() {
 		spiel.spieleSchach();
-		System.out.println(spiel.getSpieler1());
+		
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class Schach {
 	 */
 	@SuppressWarnings("unused")
 	private String getEingabe() throws IOException {
-		System.out.println("Formvorlage:\nA1 A2");
+		
 		String eingabe = new BufferedReader(new InputStreamReader(System.in)).readLine();
 		return eingabe;
 	}
@@ -166,7 +166,7 @@ public class Schach {
 					}
 				}
 			}
-			System.out.println("Schlagen auf: " + schlagZuege);
+			
 
 			// Hier wird für den Bauer das Schlagen ausgearbeitet
 			if (eigeneFigur instanceof Bauer) {
@@ -201,7 +201,7 @@ public class Schach {
 				}
 			}
 			// Ausgabe und Rückgabe
-			System.out.println("Möglich: " + mglZuege);
+			
 			return mglZuege;
 		} catch (InvalideKoordinatenException e) {
 			// TODO Auto-generated catch block
