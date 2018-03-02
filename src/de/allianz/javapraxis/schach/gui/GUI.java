@@ -196,7 +196,7 @@ public class GUI {
 		spielerAnzeige = new Text(shell, SWT.SINGLE);
 		spielerAnzeige.setBounds(SIZEFELDER * 10, SIZEFELDER * 1, 300, 25);
 		spielerAnzeige.setEditable(false);
-		spielerAnzeige.setText(player().getName() + "\tnoch " + (150-anzahlZuege) + " Züge!");
+		spielerAnzeige.setText(player().getName() + "\t\t" + anzahlZuege);
 		spielerAnzeige.setBackground(new Color(display, 194, 194, 194));
 		spielerAnzeige.setFont(fontBorder);
 		shell.setMaximized(true);
@@ -293,7 +293,7 @@ public class GUI {
 		// TODO Auto-generated method stub
 		if (schach.eingabeZug(player().getFarbe(), start, ziel, this)) {
 			anzahlZuege++;
-			spielerAnzeige.setText(player().getName() + "\tnoch " + (150-anzahlZuege) + " Züge!");
+			spielerAnzeige.setText(player().getName() + "\t" + anzahlZuege);
 			return true;
 		} else {
 			addText("----Bitte Wiederholen!----");
